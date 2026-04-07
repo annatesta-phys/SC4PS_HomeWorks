@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 	float *X = (float*) malloc(N * sizeof(float));
 	float *Y = (float*) malloc(N * sizeof(float));
 
-	long int k, NCheck;
+	long int k;
 	
 	for(k = 0; k < N; k++) {
 		X[k] = Xi;
@@ -40,17 +40,18 @@ int main(int argc, char *argv[]) {
 	// Calcolo il valore di ogni componente
 	float *D = VectorLinearCombination(a, X, Y, N);
 
-	printf("The sum of two vectors of dimensionality N = %ld was successfully computed!\n", N);
+	printf("The linear combination of two vectors of dimensionality N = %ld was successfully computed!\n", N);
 	printf("If you don't believe it, let me check that all the entries are equal:\n");
-
+	printf("...\n");
 	float expected = a*Xi + Yi;
 	
 	// Confronto con tolleranza
 	for(k = 0; k < N; k++) {
-		if(fabs(D[k] - expected) > 1e-6) printf("Component number %ld is wrong\n", k);
-		break;
+		if(fabs(D[k] - expected) > 1e-6){
+			 printf("Component number %ld is wrong\n", k);
+		}
 	}
-
+	printf("Done! The result, for each component i, is Di = %f\n", expected);
 	printf("Check is over :)\n");
 	
 	// Libera memoria
