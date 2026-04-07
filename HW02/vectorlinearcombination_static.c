@@ -19,9 +19,9 @@ int main(int argc, char *argv[]) {
 	
 	PrintInstruction();
 	
-	printf("a = %f\n", a);
-	printf("Xi = %f\n", Xi);
-	printf("Yi = %f\n", Yi);
+	printf("a = %.2f\n", a);
+	printf("Xi = %.2f\n", Xi);
+	printf("Yi = %.2f\n", Yi);
 	printf("N =  %ld\n", N);
 
 
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 	
 	// Confronto con tolleranza
 	for(k = 0; k < N; k++) {
-	    if(fabs(D[k] - expected) > 1e-7) {
+	    if(fabs(D[k] - expected) > 1e-8) {
 		printf("Component number %ld is wrong\n", k);
 	    }
 	}
