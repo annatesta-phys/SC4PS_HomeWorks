@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 	
 	// Confronto con tolleranza
 	for(k = 0; k < N; k++) {
-		if(fabs(D[k] - expected) > 1e-6){
+		if(fabs(D[k] - expected) > 1e-8){
 			 printf("Component number %ld is wrong\n", k);
 		}
 	}
