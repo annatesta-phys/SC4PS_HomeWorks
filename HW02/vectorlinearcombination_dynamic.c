@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<math.h>
 
-float* VectorLinearCombination(float a, float* X, float* Y, long int N);
+double* VectorLinearCombination(double a, double* X, double* Y, long int N);
 void PrintInstruction(void);
 
 int main(int argc, char *argv[]) {
@@ -13,22 +13,22 @@ int main(int argc, char *argv[]) {
 		return 1;
     	}
 
-	float a = strtof(argv[1], NULL);
-	float Xi = strtof(argv[2], NULL);
-	float Yi = strtof(argv[3], NULL);
+	double a = strtod(argv[1], NULL);
+	double Xi = strtod(argv[2], NULL);
+	double Yi = strtod(argv[3], NULL);
 	long int N = (long int)strtol(argv[4], NULL, 10);
 	
 	PrintInstruction();
 	
-	printf("a = %f\n", a);
-	printf("Xi = %f\n", Xi);
-	printf("Yi = %f\n", Yi);
+	printf("a = %lf\n", a);
+	printf("Xi = %lf\n", Xi);
+	printf("Yi = %lf\n", Yi);
 	printf("N =  %ld\n", N);
 
 
 	// Allocazione dinamica
-	float *X = (float*) malloc(N * sizeof(float));
-	float *Y = (float*) malloc(N * sizeof(float));
+	double *X = (double*) malloc(N * sizeof(double));
+	double *Y = (double*) malloc(N * sizeof(double));
 
 	long int k;
 	
@@ -38,20 +38,33 @@ int main(int argc, char *argv[]) {
 	}
 
 	// Calcolo il valore di ogni componente
-	float *D = VectorLinearCombination(a, X, Y, N);
+	double *D = VectorLinearCombination(a, X, Y, N);
 
 	printf("The linear combination of two vectors of dimensionality N = %ld was successfully computed!\n", N);
 	printf("If you don't believe it, let me check that all the entries are equal:\n");
 	printf("...\n");
-	float expected = a*Xi + Yi;
 	
-	// Confronto con tolleranza
+	// Differenza diretta
+	printf("First, we check if every component is exactly equal to the expected result\n");
+	double expected = a*Xi + Yi;
+	
 	for(k = 0; k < N; k++) {
-		if(fabs(D[k] - expected) > 1e-6){
-			 printf("Component number %ld is wrong\n", k);
-		}
+	    if(D[k] != expected) {
+		printf("Component number %ld is wrong\n", k);
+	    }
 	}
-	printf("Done! The result, for each component i, is Di = %f\n", expected);
+	printf("Done! The result, for each component i, is Di = %.15lf\n", expected);
+	printf("Check is over :)\n");
+		
+	// Confronto con tolleranza
+	printf("As second check, we verify if the expected result and the D vector components  are equal within a certain threshold\n");
+	for(k = 0; k < N; k++) {
+	    if(fabs(D[k] - expected) > 1e-6) {
+		printf("Component number %ld is wrong\n", k);
+	    }
+	}
+	
+	printf("Done! The result, for each component i, is Di = %.15lf\n", expected);
 	printf("Check is over :)\n");
 	
 	// Libera memoria
@@ -71,9 +84,9 @@ void PrintInstruction(void)
 
 }
 
-float* VectorLinearCombination(float a, float *X, float *Y, long int N)
+double* VectorLinearCombination(double a, double *X, double *Y, long int N)
 {
-	float *D = (float*) malloc(N * sizeof(float));
+	double *D = (double*) malloc(N * sizeof(double));
 	long int k;
 	for(k = 0; k < N; k++) {
 		D[k] = a*X[k] + Y[k];
