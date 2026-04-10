@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include<math.h>
 
-float VectorLinearCombination(float a, float Xi, float Yi, long int N);
 void PrintInstruction(void);
 
 int main(int argc, char *argv[]) {
@@ -13,23 +12,23 @@ int main(int argc, char *argv[]) {
 		return 1;
     	}
 
-	float a = strtof(argv[1], NULL);
-	float Xi = strtof(argv[2], NULL);
-	float Yi = strtof(argv[3], NULL);
+	double a = strtod(argv[1], NULL);
+	double Xi = strtod(argv[2], NULL);
+	double Yi = strtod(argv[3], NULL);
 	long int N = (long int)strtol(argv[4], NULL, 10);
 	
 	PrintInstruction();
 	
-	printf("a = %f\n", a);
-	printf("Xi = %f\n", Xi);
-	printf("Yi = %f\n", Yi);
+	printf("a = %lf\n", a);
+	printf("Xi = %lf\n", Xi);
+	printf("Yi = %lf\n", Yi);
 	printf("N =  %ld\n", N);
 
 
 	// Allocazione statica
-	float X[N];
-	float Y[N];
-	float D[N];
+	double X[N];
+	double Y[N];
+	double D[N];
 
 	long int k;
 	
@@ -41,17 +40,29 @@ int main(int argc, char *argv[]) {
 	
 	printf("The linear combination of two vectors of dimensionality N = %ld was successfully computed!\n", N);
 	printf("If you don't believe it, let me check that all the entries are equal to the value that you expect:\n");
-	float expected = a*Xi + Yi;
 	printf("...\n");
 	
+	// Differenza diretta
+	printf("First, we check if every component is exactly equal to the expected result\n");
+	double expected = a*Xi + Yi;
+	
+	for(k = 0; k < N; k++) {
+	    if(D[k] != expected) {
+		printf("Component number %ld is wrong\n", k);
+	    }
+	}
+	printf("Done! The result, for each component i, is Di = %.15lf\n", expected);
+	printf("Check is over :)\n");
+		
 	// Confronto con tolleranza
+	printf("As second check, we verify if the expected result and the D vector components  are equal within a certain threshold\n");
 	for(k = 0; k < N; k++) {
 	    if(fabs(D[k] - expected) > 1e-6) {
 		printf("Component number %ld is wrong\n", k);
 	    }
 	}
 	
-	printf("Done! The result, for each component i, is Di = %f\n", expected);
+	printf("Done! The result, for each component i, is Di = %.15lf\n", expected);
 	printf("Check is over :)\n");
 	return 0;
 }
