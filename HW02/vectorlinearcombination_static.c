@@ -75,7 +75,7 @@ void CheckCorrectness(double D[], long int N)
 		break;
 	    }
 	    else {
-	    	if(k<10) printf("The result for component %ld is D[%ld] = %.15lf\n", k, k, D[k]);
+	    	if(k<10) printf("The result for component %ld, which is exactly correct, is D[%ld] = %.15lf\n", k, k, D[k]);
 	    }
 	}
 	printf("Check 1 is over\n");
