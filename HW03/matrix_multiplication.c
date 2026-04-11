@@ -6,6 +6,7 @@
 float* MatrixProduct(float *A, float *B, long int N);
 float* CreateMatrix(long int N);
 void PrintInstruction(void);
+void CheckCorrectness(float *C, long int N);
 int CreateOutputFile(float *A, float *B, float *C, char *filename, long int N);
 void BenchmarkMatMulAlgorithm(float *A, float *B, long int N);
 
@@ -52,14 +53,9 @@ int main(int argc, char *argv[]) {
 
 	CreateOutputFile(A, B, C, filename, N);
 	
-	printf("We check the correctness of the computed C matrix evaluating (C - C_expected)[i][i], where C_expected = a*b Id, and should therefore be zero for all the diagonal entries.\n");
-	printf("If this is not the case, an error will be printed.\n");
-	for (long int i = 0; i < N; i++) {
-	    if (fabs(C[i*N + i] - a*b) > 1e-6) {
-		printf("Component number %ld is wrong\n", i*N + i);
-	    }
-	}
-	printf("Check is over! :)\n");
+	printf("\n");
+	
+	CheckCorrectness(C, N);
 	printf("\n");
 	
 	printf("Algorithm timings:\n");
@@ -101,6 +97,49 @@ float* MatrixProduct(float *A, float *B, long int N)
     }
 
     return C;
+}
+
+void CheckCorrectness(float *C, long int N)
+{
+	printf("We check the correctness of the computed C matrix evaluating (C - C_expected)[i][i], where C_expected = a*b (for diagonal components) is inserted below as input from the user:\n");
+	
+	// Differenza diretta
+	printf("Check 1: is every diagonal component of C exactly equal to the expected result?\n");
+	char buffer[100];
+    	double expected;
+    	printf("Insert the expected value:\n");
+    	fgets(buffer, sizeof(buffer), stdin);
+    	expected = strtod(buffer, NULL);
+
+	printf("Expected C[i][i] is %f\n", expected);
+	
+	for(long int k = 0; k < N; k++) {
+	    if(C[k*N + k] != expected) {
+		printf("Component number %ld is wrong\n", k);
+		printf("The (wrong) result for component %ld is C[%ld][%ld] = %f\n", k, k, k, C[k*N + k]);
+		break;
+	    }
+	    else {
+	    	if(k<10) printf("The result for component %ld, which is exactly correct, is C[%ld][%ld] = %f\n", k, k, k, C[k*N + k]);
+	    }
+	}
+	printf("Check 1 is over\n");
+	printf("\n");
+		
+	// Confronto con tolleranza
+	printf("Check 2: are the expected result and the C diagonal components equal within a certain threshold?\n");
+	for(long int k = 0; k < N; k++) {
+	    if(fabs(C[k*N + k] - expected) > 1e-6) {
+		printf("Component number %ld is wrong\n", k);
+		printf("The (wrong) result for component %ld, is C[%ld][%ld] = %f\n", k, k, k, C[k*N + k]);
+		break;
+	    }
+	    else {
+	    	if(k<10) printf("The result for component %ld, which is correct within the chosen threshold (10^-6), is C[%ld][%ld] = %f\n", k, k , k, C[k*N + k]);
+	    }
+	}
+	printf("Check 2 is over\n");
+
 }
 
 int CreateOutputFile(float *A, float *B, float *C, char *filename, long int N)
@@ -248,4 +287,3 @@ void BenchmarkMatMulAlgorithm(float *A, float *B, long int N)
     
     free(C);
 }
-
