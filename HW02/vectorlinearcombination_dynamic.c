@@ -4,6 +4,7 @@
 
 double* VectorLinearCombination(double a, double* X, double* Y, long int N);
 void PrintInstruction(void);
+void CheckCorrectness(double *D, long int N);
 
 int main(int argc, char *argv[]) {
 	
@@ -41,31 +42,8 @@ int main(int argc, char *argv[]) {
 	double *D = VectorLinearCombination(a, X, Y, N);
 
 	printf("The linear combination of two vectors of dimensionality N = %ld was successfully computed!\n", N);
-	printf("If you don't believe it, let me check that all the entries are equal:\n");
-	printf("...\n");
 	
-	// Differenza diretta
-	printf("First, we check if every component is exactly equal to the expected result\n");
-	double expected = a*Xi + Yi;
-	
-	for(k = 0; k < N; k++) {
-	    if(D[k] != expected) {
-		printf("Component number %ld is wrong\n", k);
-	    }
-	}
-	printf("Done! The result, for each component i, is Di = %.15lf\n", expected);
-	printf("Check is over :)\n");
-		
-	// Confronto con tolleranza
-	printf("As second check, we verify if the expected result and the D vector components  are equal within a certain threshold\n");
-	for(k = 0; k < N; k++) {
-	    if(fabs(D[k] - expected) > 1e-6) {
-		printf("Component number %ld is wrong\n", k);
-	    }
-	}
-	
-	printf("Done! The result, for each component i, is Di = %.15lf\n", expected);
-	printf("Check is over :)\n");
+	CheckCorrectness(D, N);
 	
 	// Libera memoria
 	free(D);
@@ -92,4 +70,46 @@ double* VectorLinearCombination(double a, double *X, double *Y, long int N)
 		D[k] = a*X[k] + Y[k];
 	}
 	return D;
+}
+
+void CheckCorrectness(double *D, long int N)
+{
+
+	// Differenza diretta
+	printf("Check 1: is every component exactly equal to the expected result?\n");
+	char buffer[100];
+    	double expected;
+    	printf("Insert the expected value:\n");
+    	fgets(buffer, sizeof(buffer), stdin);
+    	expected = strtod(buffer, NULL);
+
+	printf("Expected Di is %.15lf\n", expected);
+	
+	for(long int k = 0; k < N; k++) {
+	    if(D[k] != expected) {
+		printf("Component number %ld is wrong\n", k);
+		printf("The (wrong) result for component %ld is D[%ld] = %.15lf\n", k, k, D[k]);
+		break;
+	    }
+	    else {
+	    	printf("The result for component %ld is D[%ld] = %.15lf\n", k, k, D[k]);
+	    }
+	}
+	printf("Check 1 is over\n");
+	printf("\n");
+		
+	// Confronto con tolleranza
+	printf("Check 2: are the expected result and the D vector components equal within a certain threshold?\n");
+	for(long int k = 0; k < N; k++) {
+	    if(fabs(D[k] - expected) > 1e-6) {
+		printf("Component number %ld is wrong\n", k);
+		printf("The (wrong) result for component %ld, is D[%ld] = %.15lf\n", k, k, D[k]);
+		break;
+	    }
+	    else {
+	    	printf("The result for component %ld, which is correct within the chosen threshold (10^-6), is D[%ld] = %.15lf\n", k, k, D[k]);
+	    }
+	}
+	printf("Check 2 is over\n");
+
 }
