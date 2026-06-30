@@ -51,6 +51,8 @@ int main(void)
 	double x_val[] = {0.1, 0.5, 0.9, 0.99};
 	
 	size_t n = sizeof(x_val) / sizeof(x_val[0]);
+
+	/* Allocate memory for the Legendre polynomials */
 	
 	P_forward = malloc((lmax + 1) * sizeof(double));
 	if (P_forward == NULL) {
@@ -77,10 +79,12 @@ int main(void)
 		backward_recurrence(x_val[i], lmax, P_backward);
 		snprintf(path, sizeof(path),"output/data_legendre_x%zu.csv", i);
 		
-		
+		/* Produce a .csv file for each value of x */
 		write_comparison_csv(path, P_forward, P_reference, P_backward, x_val[i]);
 	}
 	printf("Output files data_legendre produced in output/ directory\n");
+
+	/* Free dynamically allocated memory */
 	free(P_forward);
 	free(P_reference);
 	free(P_backward);
