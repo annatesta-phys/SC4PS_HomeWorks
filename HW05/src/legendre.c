@@ -56,13 +56,13 @@ int main(void)
         exit(EXIT_FAILURE);
     	}
     	
-    	P_reference = malloc((lmax + 1) * sizeof(long double));
+    P_reference = malloc((lmax + 1) * sizeof(long double));
 	if (P_reference == NULL) {
         fprintf(stderr, "allocation failed in legendre_reference\n");
         exit(EXIT_FAILURE);
     	}
     	
-    	P_backward = malloc((lmax + 1) * sizeof(double));
+    P_backward = malloc((lmax + 1) * sizeof(double));
 	if (P_backward == NULL) {
         fprintf(stderr, "allocation failed in legendre_backward\n");
         exit(EXIT_FAILURE);
