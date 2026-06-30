@@ -1,19 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-Plot the sampling-demonstration data with matplotlib.
-
-This script is intentionally simple and beginner-friendly:
-
-- it reads plain CSV files produced by the C programs
-- it creates the same figures as the gnuplot workflow
-- it demonstrates a minimal reproducible plotting script in Python
-
-Because the figures are generated from files rather than from in-memory objects,
-the plotting step is fully decoupled from the numerical simulation step. That is
-often a good habit in research workflows.
-"""
-
 from __future__ import annotations
 
 import csv
