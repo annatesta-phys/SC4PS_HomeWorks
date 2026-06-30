@@ -19,13 +19,15 @@ static void write_comparison_csv(const char *path, double *P_forw, long double *
                 "abs_err_backward,rel_err_backward\n");
  
     for (int l = 0; l <= lmax; l++) {
+		/* Set the reference values */
         long double ref_l   = P_ref[l];
         double      ref_d   = (double)ref_l;
- 
+
+		/* Evaluate absolute errors */
         double abs_err_fwd  = fabs(P_forw[l]  - ref_d);
         double abs_err_back = fabs(P_back[l] - ref_d);
  
-        /* Relative error; guard against division by ~0 (P_l has zeros) */
+        /* Evaluate relative errors; guard against division by ~0 (P_l has zeros) */
         double denom = fabs(ref_d) > 1e-300 ? fabs(ref_d) : 1e-300;
         double rel_err_fwd  = abs_err_fwd  / denom;
         double rel_err_back = abs_err_back / denom;
