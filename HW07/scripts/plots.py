@@ -143,10 +143,10 @@ def plot_inverse_exp() -> None:
     # --- Second figure: histogram of CDF vs true CDF ---
     fig, ax = plt.subplots(figsize=(10, 5), constrained_layout=True)
 
-    # CDF empirica: Y (ordinati) sull'asse x, rango normalizzato sull'asse y
+    # Empirical CDF: sorted values of Y on the x-axis, normalized rank on the y-axis
     ax.plot(Y, CDF, linewidth=1.5, label="Empirical CDF")
 
-    # CDF teorica, valutata sugli stessi punti Y
+    # Theoretical CDF, evaluated against the same Y points
     F_theoretical = 1 - np.exp(-1.5 * np.array(Y))
     ax.plot(Y, F_theoretical, "r--", linewidth=2,
             label=r"$F_Y(y)=1-e^{-\lambda y}$")
