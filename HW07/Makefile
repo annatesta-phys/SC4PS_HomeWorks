@@ -8,10 +8,10 @@ OUT_DIR       = output
 PLOT_DIR      = plots
 MPLCONFIG_DIR = .mplconfig
 
-# Tutti i sorgenti C
+# All the C src files
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 
-# Un eseguibile per ogni sorgente
+# One executable for every src file
 BINS = $(SRCS:$(SRC_DIR)/%.c=$(BIN_DIR)/%)
 
 all: $(BINS)
@@ -31,14 +31,14 @@ $(PLOT_DIR):
 $(MPLCONFIG_DIR):
 	mkdir -p $(MPLCONFIG_DIR)
 
-# Compila tutti gli eseguibili e li esegue
+# Compiles and executes all the executable
 run: all | $(OUT_DIR)
 	@for exe in $(BINS); do \
 		echo "==> Running $$exe"; \
 		./$$exe; \
 	done
 
-# Plot con Python (dopo aver rigenerato i dati)
+# Plot with Python after regenerating the data
 plot-python: run | $(PLOT_DIR) $(MPLCONFIG_DIR)
 	MPLCONFIGDIR=$(MPLCONFIG_DIR) python3 scripts/plots.py
 
