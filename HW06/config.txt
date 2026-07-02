@@ -1,0 +1,10 @@
+# Configuration file
+# Sintax:: Key = Value  (a couple / row)
+# Rows starting with '#' or ';' are comments and therefore ignored.
+
+a = 1.0
+Xi = 0.1
+Yi = 7.3
+N = 160
+chunk_size = 8
+output_file = output.h5
