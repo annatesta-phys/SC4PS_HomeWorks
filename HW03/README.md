@@ -2,7 +2,13 @@
   This document provides a detailed description of the C code `matrix_multiplication.c`.
 
 ## Goal of the code
-  This C program computes the product of two `N x N` matrices, according to the formula `C[i, j] = Σ_k A[i, k]*B[k, j]`, where:
+  This C program computes the product of two `N x N` matrices, according to the formula 
+  
+  $$
+  C[i, j] = \sum_k A[i, k] \cdot B[k, j],
+  $$
+  
+  where:
 - **A** and **B** are diagonal matrices of size `N x N`, defined as `A = a ⋅ I` and `B = b ⋅ I` where `I` is the `N x N` identity matrix, `a, b` two scalar values.
 - **C** is the resulting matrix.
 
